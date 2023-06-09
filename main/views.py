@@ -30,6 +30,11 @@ class ShowCard(FormView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['card'] = self.get_card()
+        counts = {}
+        for box_type in ['front', 'middle', 'back']:
+            counts[box_type] = Card.objects.filter(box=box_type).count()
+
+        context['counts'] = counts
         return context
 
     def get_card(self):

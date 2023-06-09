@@ -1,23 +1,73 @@
 <html>
     <head>
         <title>card</title>
+        <style>
+            body {
+                background-color: #EEEEFF;
+            }
+            #card {
+                border: 1px solid black;
+                width: 500px;
+                background-color: #FFFFFF;
+                margin: 0 auto;
+                text-align: center;
+                min-height: 300px;
+                padding-top: 50px;
+                position: relative;
+                border-radius: 10px;
+            }
+
+            #counts {
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                font-style: italic;
+                background-color: #CCCCDD;
+                width: 100%;
+                border-radius: 0 0 10px 10px
+            }
+
+            #counts span {
+                margin-right: 10px;
+            }
+
+            #front {
+                color: #FF3333;
+            }
+            #middle {
+                color: #FFFF00;
+            }
+            #back {
+                color: green;
+            }
+        </style>
     </head>
     <body>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        <div id="content">
 
-        <h1>{{ card.term }}</h1>
-        <p>box: {{ card.get_box_display }}</p>
-        <form method="post" action=".">
-            {% csrf_token %}
-            <input type="hidden" name="card_id" value="{{ card.id }}" />
-            <input name="answer" id="answer_field" />
-        </form>
+            <div id="card">
+                <h1>"{{ card.term }}"</h1>
+                <p>box: {{ card.get_box_display }}</p>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <input type="hidden" name="card_id" value="{{ card.id }}" />
+                    <input name="answer" id="answer_field" />
+                </form>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div id="counts">
+                    <span id="front">{{ counts.front }}</span>
+                    <span id="middle">{{ counts.middle }}</span>
+                    <span id="back">{{ counts.back}}</span>
+                </div>
+            </div>
+        </div>
     </body>
     <script>
         document.getElementById('answer_field').focus();

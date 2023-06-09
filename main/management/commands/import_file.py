@@ -12,5 +12,6 @@ class Command(BaseCommand):
             lines = [line.strip().split(' - ') for line in inf.readlines() if ' - ' in line]
 
         Card.objects.all().delete()
-        for term, definition in lines:
-            Card.objects.create(term=term, definition=definition)
+        for one, other in lines:
+            Card.objects.create(term=one, definition=other)
+            Card.objects.create(term=other, definition=one)
