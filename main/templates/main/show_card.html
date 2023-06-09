@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>card</title>
+    </head>
+    <body>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if messages.tags %} class="{{ messages.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h1>{{ card.term }}</h1>
+        <p>box: {{ card.get_box_display }}</p>
+        <form method="post" action=".">
+            {% csrf_token %}
+            <input type="hidden" name="card_id" value="{{ card.id }}" />
+            <input name="answer" id="answer_field" />
+        </form>
+    </body>
+    <script>
+        document.getElementById('answer_field').focus();
+    </script>
+</html>
