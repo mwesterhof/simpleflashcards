@@ -13,10 +13,10 @@ from .models import Card
 def pick_box():
     value = random.randint(0, 100)
     if value < 5:
-        return 'back'
+        return ('back',)
     if value < 15:
-        return 'middle'
-    return 'front'
+        return ('middle', 'back')
+    return ('front', 'middle', 'back')
 
 
 class CardList(ListView):
@@ -38,10 +38,10 @@ class ShowCard(FormView):
         return context
 
     def get_card(self):
-        box = pick_box()
-        card_set = Card.objects.filter(box=box)
-        if not card_set.exists():
-            card_set = Card.objects.all()
+        for box in pick_box():
+            card_set = Card.objects.filter(box=box)
+            if card_set.exists():
+                break
 
         return card_set.order_by('?').first()
 
