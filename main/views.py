@@ -13,9 +13,9 @@ from .models import Card
 def pick_box():
     value = random.randint(0, 100)
     if value < 5:
-        return ('back',)
+        return ('back', 'middle', 'front')
     if value < 15:
-        return ('middle', 'back')
+        return ('middle', 'back', 'front')
     return ('front', 'middle', 'back')
 
 
