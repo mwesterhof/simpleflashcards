@@ -48,7 +48,7 @@ class ShowCard(FormView):
     def form_valid(self, form):
         card = Card.objects.get(pk=form.cleaned_data['card_id'])
         answer = form.cleaned_data['answer']
-        if card.definition == answer:
+        if card.definition.value == answer:
             if card.box == 'front':
                 card.box = 'middle'
             elif card.box == 'middle':

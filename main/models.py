@@ -1,3 +1,8 @@
+from tempfile import TemporaryFile
+
+from gtts import gTTS
+
+from django.core.files.base import File
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -9,9 +14,32 @@ BOXES = [
 ]
 
 
+def audio_upload_path(instance, filename):
+    language_code = instance.language
+
+    return f'audio/{language_code}/{filename}'
+
+
+class Word(models.Model):
+    value = models.CharField(unique=True, max_length=200)
+    language = models.CharField(max_length=5)
+    audio = models.FileField(blank=True, upload_to=audio_upload_path)
+
+    def save(self, *args, **kwargs):
+        if kwargs.get('generate_audio'):
+            kwargs.pop('generate_audio')
+            f = TemporaryFile()
+            gTTS(self.value, lang=self.language).write_to_fp(f)
+            self.audio.save(f'{self.pk}.mp3', File(f))
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.value
+
+
 class Card(models.Model):
-    term = models.CharField(unique=True, max_length=200)
-    definition = models.TextField()
+    term = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='+')
+    definition = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='+')
 
     box = models.CharField(
         choices=BOXES,
@@ -20,4 +48,4 @@ class Card(models.Model):
     )
 
     def __str__(self):
-        return self.term
+        return str(self.term)
