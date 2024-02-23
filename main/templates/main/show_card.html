@@ -1,3 +1,4 @@
+{% load static %}
 <html>
     <head>
         <title>card</title>
@@ -47,7 +48,12 @@
         <div id="content">
 
             <div id="card">
-                <h1>"{{ card.term }}"</h1>
+                {% if sound_enabled %}
+                    <h1 onclick="new Audio('{% static card.term.audio_cleaned %}').play()">"{{ card.term }}"</h1>
+                {% else %}
+                    <h1>"{{ card.term }}"</h1>
+                {% endif %}
+
                 <p>box: {{ card.get_box_display }}</p>
                 <form method="post" action=".">
                     {% csrf_token %}

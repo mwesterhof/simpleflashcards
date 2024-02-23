@@ -25,6 +25,10 @@ class Word(models.Model):
     language = models.CharField(max_length=5)
     audio = models.FileField(blank=True, upload_to=audio_upload_path)
 
+    @property
+    def audio_cleaned(self):
+        return self.audio.url.replace('/audio/', '/')
+
     def save(self, *args, **kwargs):
         if kwargs.get('generate_audio'):
             kwargs.pop('generate_audio')

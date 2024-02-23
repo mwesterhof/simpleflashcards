@@ -1,5 +1,6 @@
 import random
 
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -34,7 +35,10 @@ class ShowCard(FormView):
         for box_type in ['front', 'middle', 'back']:
             counts[box_type] = Card.objects.filter(box=box_type).count()
 
-        context['counts'] = counts
+        context.update({
+            'counts': counts,
+            'sound_enabled': settings.PLAY_TERM_SOUND,
+        })
         return context
 
     def get_card(self):
