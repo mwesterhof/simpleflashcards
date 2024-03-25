@@ -30,11 +30,12 @@ class Word(models.Model):
         return self.audio.url.replace('/audio/', '/')
 
     def save(self, *args, **kwargs):
-        if kwargs.get('generate_audio'):
-            kwargs.pop('generate_audio')
-            f = TemporaryFile()
-            gTTS(self.value, lang=self.language).write_to_fp(f)
-            self.audio.save(f'{self.pk}.mp3', File(f))
+        if 'generate_audio' in kwargs:
+            generate_audio = kwargs.pop('generate_audio')
+            if generate_audio:
+                f = TemporaryFile()
+                gTTS(self.value, lang=self.language).write_to_fp(f)
+                self.audio.save(f'{self.pk}.mp3', File(f))
         return super().save(*args, **kwargs)
 
     def __str__(self):

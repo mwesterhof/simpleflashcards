@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 from main.models import Card, Word
@@ -14,7 +15,7 @@ class Command(BaseCommand):
             word = Word()
             word.value = value
             word.language = language
-            word.save(generate_audio=True)
+            word.save(generate_audio=settings.PLAY_TERM_SOUND)
 
         return word
 
