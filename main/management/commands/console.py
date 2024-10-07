@@ -12,6 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         def _callback(message):
             self.stdout.write(message)
+            self.stdout.write()
 
         while True:
             self._print_boxes()
