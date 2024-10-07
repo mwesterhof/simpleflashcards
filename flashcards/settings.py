@@ -127,4 +127,4 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-PLAY_TERM_SOUND = True
+PLAY_TERM_SOUND = False
