@@ -19,10 +19,11 @@ class Command(BaseCommand):
 
         return word
 
-    def _create_card(self, term, definition):
+    def _create_card(self, term, definition, primary):
         card = Card()
         card.term = term
         card.definition = definition
+        card.primary = primary
         card.save()
         return card
 
@@ -44,5 +45,5 @@ class Command(BaseCommand):
             one = self._create_word(one, one_language)
             other = self._create_word(other, other_language)
 
-            self._create_card(term=one, definition=other)
-            self._create_card(term=other, definition=one)
+            self._create_card(term=one, definition=other, primary=True)
+            self._create_card(term=other, definition=one, primary=False)

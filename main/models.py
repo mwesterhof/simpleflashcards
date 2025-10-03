@@ -45,6 +45,7 @@ class Word(models.Model):
 class Card(models.Model):
     term = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='+')
     definition = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='+')
+    primary = models.BooleanField()
 
     box = models.CharField(
         choices=BOXES,

@@ -13,6 +13,9 @@ from .utils import get_box_counts, get_random_card, reposition_card
 class CardList(ListView):
     model = Card
 
+    def get_queryset(self, *args, **kwargs):
+        return Card.objects.filter(primary=True)
+
 
 class ShowCard(FormView):
     form_class = CardForm

@@ -1,13 +1,76 @@
 <html>
     <head>
         <title>cards</title>
+        <style>
+            .card {
+                float: left;
+                margin: .5rem;
+                box-sizing: border-box;
+                position: relative;
+                width: 12rem;
+                height: 6rem;
+            }
+
+            .card div {
+                position: absolute;
+                width: 12rem;
+                height: 6rem;
+                top: 0;
+                left: 0;
+                border-radius: 1rem;
+                text-align: center;
+                padding-top: 1rem;
+                backface-visibility: hidden;
+                transform: rotateY(0deg);
+                transition: all 1s;
+            }
+
+            .front {
+                background-color: lightblue;
+            }
+            .back {
+                background-color: lightgreen;
+            }
+
+            .card.normal .front {
+                transform: rotateY(0deg);
+            }
+            .card.normal .back {
+                transform: rotateY(180deg);
+            }
+            .card.flipped .front {
+                transform: rotateY(180deg);
+            }
+            .card.flipped .back {
+                transform: rotateY(0deg);
+            }
+        </style>
     </head>
     <body>
         <h1>cards</h1>
-        <ul>
-            {% for card in card_list %}
-            <li>{{ card }}</li>
-            {% endfor %}
-        </ul>
+        {% for card in card_list %}
+        <div class="card normal">
+            <div class="front">
+                {{ card.term }}
+            </div>
+            <div class="back">
+                {{ card.definition }}
+            </div>
+        </div>
+        {% endfor %}
+        <script>
+            document.querySelectorAll('.card').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    var el = e.currentTarget;
+                    if (el.classList.contains('normal')) {
+                        el.classList.remove('normal');
+                        el.classList.add('flipped');
+                    } else {
+                        el.classList.remove('flipped');
+                        el.classList.add('normal');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
